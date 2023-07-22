@@ -1,3 +1,4 @@
+import ListItem from '@/components/Container/ListItem/ListItem'
 import Header from '@/components/partials/Header'
 
 export default function Home() {
@@ -13,7 +14,23 @@ export default function Home() {
     overflow-y-auto
   '
     >
-      <Header>Hi</Header>
+      <Header>
+        <div className='mb-2 mt-2'>
+          <h1 className='text-2xl font-semibold text-white'>Welcome Back</h1>
+          <div
+            className='
+              grid
+              grid-cols-1
+              sm:grid-cols-2
+              xl:grid-cols-3
+              2xl:grid-cols-4
+              gap-3
+              mt-4'
+          >
+            <ListItem />
+          </div>
+        </div>
+      </Header>
     </div>
   )
 }

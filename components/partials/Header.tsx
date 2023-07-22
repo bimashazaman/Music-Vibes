@@ -5,6 +5,7 @@ import { twMerge } from 'tailwind-merge'
 import { RxCaretLeft, RxCaretRight } from 'react-icons/rx'
 import { HiHome } from 'react-icons/hi'
 import { BiSearch } from 'react-icons/bi'
+import Button from '../Buttons/Button'
 
 interface HeaderProps {
   children: React.ReactNode
@@ -94,7 +95,6 @@ const Header = ({ children, className }: HeaderProps) => {
               onClick={() => router.forward()}
             />
           </button>
-          <span className=' text-white font-medium text-md'>{children}</span>
         </div>
         <div className='flex md:hidden gap-x-2 items-center'>
           <button
@@ -128,7 +128,29 @@ const Header = ({ children, className }: HeaderProps) => {
             <BiSearch className='text-black' size={20} />
           </button>
         </div>
+        <div className='flex justify-between items-center gap-x-4'>
+          <>
+            <div>
+              <Button
+                className=' bg-transparent text-neutral-300 font-medium'
+                onClick={() => {}}
+              >
+                Sign Up
+              </Button>
+            </div>
+            {/* login */}
+            <div>
+              <Button
+                className=' bg-white text-black px-6 py-2'
+                onClick={() => {}}
+              >
+                Login
+              </Button>
+            </div>
+          </>
+        </div>
       </div>
+      {children}
     </div>
   )
 }

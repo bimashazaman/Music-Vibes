@@ -7,6 +7,7 @@ import { useMemo } from 'react'
 
 import { Box } from '../Container/Box/Box'
 import SidebarItems from '../Container/Sidebar/SidebarItems'
+import Library from '../Container/Library/Library'
 
 interface SidebarProps {
   children: React.ReactNode
@@ -45,7 +46,9 @@ const Sidebar = ({ children }: SidebarProps) => {
             ))}
           </div>
         </Box>
-        <Box className=' overflow-y-auto h-full'>Song Library</Box>
+        <Box className=' overflow-y-auto h-full'>
+          <Library/>
+        </Box>
       </div>
       <div className='h-full flex-1 overflow-y-auto py-2'>{children}</div>
     </div>

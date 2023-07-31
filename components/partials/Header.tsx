@@ -12,7 +12,7 @@ import { BiSearch } from 'react-icons/bi'
 import useAuthModal from '@/hooks/useAuthModal'
 import { useUser } from '@/hooks/useUser'
 import usePlayer from '@/hooks/usePlayer'
-import Button from '../Buttons/Button'
+import Button from '../Button'
 
 interface HeaderProps {
   children: React.ReactNode

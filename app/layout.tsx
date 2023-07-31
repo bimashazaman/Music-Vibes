@@ -1,37 +1,42 @@
-import './globals.css'
-import type { Metadata } from 'next'
 import { Figtree } from 'next/font/google'
-import Sidebar from '@/components/partials/Sidebar'
-import SupabaseProvider from '@/providers/SuperbaseProvider'
+
+import getSongsByUserId from '@/actions/getSongsByUserId'
+import getActiveProductsWithPrices from '@/actions/getActiveProductsWithPrices'
+import ToasterProvider from '@/providers/ToasterProvider'
 import UserProvider from '@/providers/UserProvider'
 import ModalProvider from '@/providers/ModalProvider'
-import ToasterProvider from '@/providers/ToasterProvider'
+import Player from '@/components/Player'
+
+import './globals.css'
+import Sidebar from '@/components/partials/Sidebar'
+import SupabaseProvider from '@/providers/SuperbaseProvider'
 
 const font = Figtree({ subsets: ['latin'] })
 
-export const metadata: Metadata = {
+export const metadata = {
   title: 'Music Vibes',
-  description:
-    'Music Vibes is a music streaming service. It is a work in progress. Please check back later for more updates.',
+  description: 'Music Vibes is a music streaming service.',
 }
 
-export default function RootLayout({
+export const revalidate = 0
+
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const products = await getActiveProductsWithPrices()
+  const userSongs = await getSongsByUserId()
+
   return (
     <html lang='en'>
       <body className={font.className}>
         <ToasterProvider />
         <SupabaseProvider>
           <UserProvider>
-            <ModalProvider />
-            <Sidebar>
-              <main className='flex flex-col min-h-screen'>
-                <div className='flex-grow'>{children}</div>
-              </main>
-            </Sidebar>
+            <ModalProvider products={products} />
+            <Sidebar songs={userSongs}>{children}</Sidebar>
+            <Player />
           </UserProvider>
         </SupabaseProvider>
       </body>

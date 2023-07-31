@@ -1,23 +1,26 @@
 'use client'
 
-import { usePathname } from 'next/navigation'
 import { HiHome } from 'react-icons/hi'
 import { BiSearch } from 'react-icons/bi'
-import { useMemo } from 'react'
+import { twMerge } from 'tailwind-merge'
+import { usePathname } from 'next/navigation'
 
-import { Box } from '../Container/Box/Box'
+import { Song } from '@/types'
+import usePlayer from '@/hooks/usePlayer'
+import { useMemo } from 'react'
 import SidebarItems from '../Container/Sidebar/SidebarItems'
-import Library from '../Container/Library/Library'
+import { Box } from '../Container/Box/Box'
+import Library from '../Library'
 
 interface SidebarProps {
   children: React.ReactNode
+  songs: Song[]
 }
 
-const Sidebar = ({ children }: SidebarProps) => {
-  /* It is used to get the current pathname of the URL. */
+const Sidebar = ({ children, songs }: SidebarProps) => {
   const pathname = usePathname()
+  const player = usePlayer()
 
-  /* The line is using the `useMemo` hook to create a memoized value for the `routes` variable. */
   const routes = useMemo(
     () => [
       {
@@ -29,16 +32,35 @@ const Sidebar = ({ children }: SidebarProps) => {
       {
         icon: BiSearch,
         label: 'Search',
-        active: pathname === '/search',
         href: '/search',
+        active: pathname === '/search',
       },
     ],
     [pathname]
   )
 
   return (
-    <div className='flex h-full'>
-      <div className='hidden md:flex flex-col gap-y-2 bg-black h-full w-[300px] p-2'>
+    <div
+      className={twMerge(
+        `
+        flex 
+        h-full
+        `,
+        player.activeId && 'h-[calc(100%-80px)]'
+      )}
+    >
+      <div
+        className='
+          hidden 
+          md:flex 
+          flex-col 
+          gap-y-2 
+          bg-black 
+          h-full 
+          w-[300px] 
+          p-2
+        '
+      >
         <Box>
           <div className='flex flex-col gap-y-4 px-5 py-4'>
             {routes.map((item) => (
@@ -46,11 +68,11 @@ const Sidebar = ({ children }: SidebarProps) => {
             ))}
           </div>
         </Box>
-        <Box className=' overflow-y-auto h-full'>
-          <Library/>
+        <Box className='overflow-y-auto h-full'>
+          <Library songs={songs} />
         </Box>
       </div>
-      <div className='h-full flex-1 overflow-y-auto py-2'>{children}</div>
+      <main className='h-full flex-1 overflow-y-auto py-2'>{children}</main>
     </div>
   )
 }
